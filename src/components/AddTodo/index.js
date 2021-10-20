@@ -20,7 +20,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actionCreators from '../../store/action-creators';
-import { useEffect } from 'react';
+import _ from 'lodash';
 
 const AddTodo = ({ handleClose }) => {
 	const [date, setDate] = useState(+new Date());
@@ -35,29 +35,23 @@ const AddTodo = ({ handleClose }) => {
 	const todos = useSelector((state) => state.todo.todos);
 
 	const submitTodo = () => {
-		let newId = 0;
-		if (todos[0]) {
-			newId = todos.reduce((prev, current) =>
-				+prev.id > +current.id ? prev : current
-			).id;
+		if (!name || !time) {
+			return alert('Error in name or time');
 		}
-		if (!name || !time || !parseInt(time)) {
-			alert('Error in name or time');
-		} else {
-			const todo = {
-				id: newId + 1,
-				name: name,
-				dueDate: date,
-				timeToComplete: parseInt(time),
-				dependencies: dependencies,
-				excitement: excitement,
-			};
-			addTodo(todo);
-			handleClose();
-		}
+		const maxId = todos.length ? _.maxBy(todos, 'id').id : 0;
+		const todo = {
+			id: maxId + 1,
+			name: name,
+			dueDate: date,
+			timeToComplete: time,
+			dependencies: dependencies,
+			excitement: excitement,
+		};
+		addTodo(todo);
+		handleClose();
 	};
 
-	const addDependancy = () => {
+	const addDependency = () => {
 		const array = dependencies;
 		dependency && array.push(dependency);
 		setDependencies(array);
@@ -67,50 +61,54 @@ const AddTodo = ({ handleClose }) => {
 	const classes = useStyles();
 	return (
 		<Card className={classes.root}>
-			<CardHeader
-				title={
-					<div className={classes.header}>
-						<TextField
-							label="Name"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-						></TextField>
-					</div>
-				}
-			/>
-			<CardContent>
-				<DatePicker date={date} setDate={setDate} />
-				<br />
-				<TimePicker time={time} setTime={setTime} />
-				<br />
-				<InputLabel shrink>Dependencies</InputLabel>
-				<Dependencies dependencies={dependencies} />
-				<br />
-				<Input
-					style={{ maxWidth: '180px' }}
-					value={dependency}
-					onChange={(e) => setDependency(e.target.value)}
-					endAdornment={
-						<InputAdornment
-							className={classes.addDependancyButton}
-							onClick={addDependancy}
-							position="end"
-						>
-							<FontAwesomeIcon icon={faPlus} />
-						</InputAdornment>
+			<div className={classes.wrapper}>
+				<CardHeader
+					title={
+						<div className={classes.header}>
+							<TextField
+								label="Name"
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+							></TextField>
+						</div>
 					}
-				></Input>
-
-				<ExcitementPicker
-					excitement={excitement}
-					setExcitement={setExcitement}
 				/>
-			</CardContent>
-			<CardActions>
-				<Button className={classes.submitButton} onClick={submitTodo}>
-					Add Todo
-				</Button>
-			</CardActions>
+				<CardContent>
+					<DatePicker date={date} setDate={setDate} />
+					<br />
+					<TimePicker time={time} setTime={setTime} />
+					<br />
+					<InputLabel shrink>Dependencies</InputLabel>
+					<Dependencies dependencies={dependencies} />
+					<br />
+					<Input
+						style={{ maxWidth: '180px' }}
+						value={dependency}
+						onChange={(e) => setDependency(e.target.value)}
+						endAdornment={
+							<InputAdornment
+								className={classes.addDependancyButton}
+								onClick={addDependency}
+								position="end"
+							>
+								<FontAwesomeIcon icon={faPlus} />
+							</InputAdornment>
+						}
+					></Input>
+					<InputLabel className={classes.label} shrink>
+						Excitement level
+					</InputLabel>
+					<ExcitementPicker
+						excitement={excitement}
+						setExcitement={setExcitement}
+					/>
+				</CardContent>
+				<CardActions>
+					<Button className={classes.submitButton} onClick={submitTodo}>
+						Add Todo
+					</Button>
+				</CardActions>
+			</div>
 		</Card>
 	);
 };

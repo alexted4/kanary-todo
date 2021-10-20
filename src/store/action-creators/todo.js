@@ -9,7 +9,7 @@ import {
 	SORT_TODO_SUCCESS,
 	SORT_TODO_FAILURE,
 	SET_LOADING,
-} from '../types';
+} from '../actionTypes';
 
 const updateStorage = (todos) => {
 	localStorage.setItem('todos', JSON.stringify(todos));
@@ -18,10 +18,7 @@ const updateStorage = (todos) => {
 export const getInitialState = () => {
 	return (dispatch) => {
 		dispatch(setLoading(true));
-		let todos;
-		if (localStorage.getItem('todos')) {
-			todos = JSON.parse(localStorage.getItem('todos'));
-		}
+		const todos = JSON.parse(localStorage.getItem('todos'));
 		todos ? dispatch(stateInit(todos)) : dispatch(stateInit([]));
 	};
 };

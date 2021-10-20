@@ -9,7 +9,7 @@ import {
 	SORT_TODO_SUCCESS,
 	SORT_TODO_FAILURE,
 	SET_LOADING,
-} from '../types';
+} from '../actionTypes';
 //import sampleData from '../sampleData';
 
 const initialState = {

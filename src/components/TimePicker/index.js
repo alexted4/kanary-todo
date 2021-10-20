@@ -4,14 +4,14 @@ import useStyles from './style';
 const TimePicker = ({ time, setTime }) => {
 	const classes = useStyles();
 	return (
-		<>
+		<div className={classes.root}>
 			<InputLabel shrink>Minutes to complete</InputLabel>
 			<Input
 				className={classes.dateInput}
 				value={time}
-				onChange={(e) => setTime(e.target.value)}
-			></Input>
-		</>
+				onChange={(e) => setTime(parseInt(e.target.value))}
+			/>
+		</div>
 	);
 };
 

@@ -1,4 +1,4 @@
-import { InputLabel, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faFrown,
@@ -10,37 +10,28 @@ import useStyles from './style';
 
 const ExcitementPicker = ({ excitement, setExcitement }) => {
 	const classes = useStyles();
-	return (
-		<>
-			<InputLabel shrink>Excitement level</InputLabel>
-			<Container>
-				<FontAwesomeIcon
-					size="2x"
-					icon={faFrown}
-					className={excitement === 0 ? classes.smileyActive : classes.smiley}
-					onClick={() => setExcitement(0)}
-				/>
-				<FontAwesomeIcon
-					size="2x"
-					icon={faMeh}
-					className={excitement === 1 ? classes.smileyActive : classes.smiley}
-					onClick={() => setExcitement(1)}
-				/>
-				<FontAwesomeIcon
-					size="2x"
-					icon={faSmile}
-					className={excitement === 2 ? classes.smileyActive : classes.smiley}
-					onClick={() => setExcitement(2)}
-				/>
-				<FontAwesomeIcon
-					size="2x"
-					icon={faGrinBeam}
-					className={excitement === 3 ? classes.smileyActive : classes.smiley}
-					onClick={() => setExcitement(3)}
-				/>
-			</Container>
-		</>
-	);
+
+	const EXCITEMENTS = [
+		{ id: 0, icon: faFrown },
+		{ id: 1, icon: faMeh },
+		{ id: 2, icon: faSmile },
+		{ id: 3, icon: faGrinBeam },
+	];
+
+	const getExcitements = () => {
+		return EXCITEMENTS.map((exc) => (
+			<FontAwesomeIcon
+				size="2x"
+				icon={exc.icon}
+				className={
+					excitement === exc.id ? classes.smileyActive : classes.smiley
+				}
+				onClick={() => setExcitement(exc.id)}
+			/>
+		));
+	};
+
+	return <Container>{getExcitements()}</Container>;
 };
 
 export default ExcitementPicker;

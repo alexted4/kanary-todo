@@ -1,14 +1,9 @@
 import { Link } from 'react-router-dom';
-
-const style = {
-	color: '#fff',
-	marginLeft: 'auto',
-	marginRight: 'auto',
-	marginTop: '30px',
-	textAlign: 'center',
-};
+import useStyles from './style';
 
 const ErrorPage = ({ errorCode }) => {
+	const classes = useStyles();
+
 	const getError = () => {
 		switch (errorCode) {
 			case 404: {
@@ -21,9 +16,9 @@ const ErrorPage = ({ errorCode }) => {
 	};
 
 	return (
-		<div style={style}>
+		<div className={classes.root}>
 			<h1>{getError()}</h1>
-			<Link style={{ color: '#aaa' }} to="/">
+			<Link className={classes.link} to="/">
 				Return to homepage
 			</Link>
 		</div>

@@ -1,22 +1,19 @@
 import { Button } from '@material-ui/core';
+import useStyles from './style';
 
 const Dependencies = ({ dependencies }) => {
-	const style = { display: 'flex', flexWrap: 'wrap' };
+	const classes = useStyles();
 
 	const getDependencies = () => {
-		const result = [];
-		for (let i = 0; i < dependencies.length; i++) {
-			result.push(
-				<Button key={i} disabled>
-					{dependencies[i]}
-				</Button>
-			);
-		}
-		return result;
+		return dependencies.map((dependency, index) => (
+			<Button className={classes.btn} key={index} disabled>
+				{dependency}
+			</Button>
+		));
 	};
-	if (dependencies && dependencies.length > 0) {
-		return <div className={style}>{getDependencies()}</div>;
-	} else return null;
+
+	if (!dependencies?.length) return null;
+	return <div className={classes.root}>{getDependencies()}</div>;
 };
 
 export default Dependencies;

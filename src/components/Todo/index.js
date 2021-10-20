@@ -6,89 +6,71 @@ import ExcitementPicker from '../ExcitementPicker';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import actionCreators from '../../store/action-creators';
 
 import useStyles from './style';
 
-const Todo = ({ data }) => {
-	const [date, setDate] = useState(data.dueDate);
-	const [time, setTime] = useState(data.timeToComplete);
-	const [excitement, setExcitement] = useState(data.excitement);
-
-	const dispatch = useDispatch();
-	const { deleteTodo, updateTodo } = bindActionCreators(
-		actionCreators,
-		dispatch
-	);
-
-	const updateDate = () => {
-		const todo = data;
-		todo.dueDate = date;
-		updateTodo(todo);
-	};
+const Todo = ({ todo, deleteTodo, updateTodo }) => {
+	const [date, setDate] = useState(todo.dueDate);
+	const [time, setTime] = useState(todo.timeToComplete);
+	const [excitement, setExcitement] = useState(todo.excitement);
 
 	useEffect(() => {
-		if (data.dueDate !== date) {
-			updateDate();
+		if (todo.dueDate !== date) {
+			const newTodo = todo;
+			newTodo.dueDate = date;
+			updateTodo(newTodo);
 		}
 	}, [date]);
 
 	useEffect(() => {
-		if (data.dueDate !== date) {
-			setDate(new Date(data.dueDate));
-		}
-	}, [data.dueDate]);
-
-	const updateTime = () => {
-		const todo = data;
-		todo.timeToComplete = time;
-		updateTodo(todo);
-	};
-
-	useEffect(() => {
-		if (data.timeToComplete !== time) {
-			updateTime();
+		if (todo.timeToComplete !== time) {
+			const newTodo = todo;
+			newTodo.timeToComplete = time;
+			updateTodo(newTodo);
 		}
 	}, [time]);
 
-	const updateExcitement = () => {
-		const todo = data;
-		todo.excitement = excitement;
-		updateTodo(todo);
-	};
-
 	useEffect(() => {
-		if (data.excitement !== excitement) {
-			updateExcitement();
+		if (todo.excitement !== excitement) {
+			const newTodo = todo;
+			newTodo.excitement = excitement;
+			updateTodo(newTodo);
 		}
 	}, [excitement]);
 
 	useEffect(() => {
-		// console.log(data);
-		// console.log(date);
-		// const debug = new Date(date);
-		// console.log(debug);
-	});
+		if (todo.dueDate !== date) {
+			setDate(+new Date(todo.dueDate));
+		}
+	}, [todo.dueDate]);
+
+	useEffect(() => {
+		if (todo.timeToComplete !== time) {
+			setTime(todo.timeToComplete);
+		}
+	}, [todo.timeToComplete]);
 
 	const getSize = () => {
-		switch (time) {
-			case time > 15 && time < 30:
+		switch (true) {
+			case time > 15 && time <= 30:
 				return {
-					width: '300px',
+					width: '325px',
+					height: '350px',
 				};
-			case time > 30 && time < 90:
+			case time > 30 && time <= 90:
 				return {
-					width: '400px',
+					width: '350px',
+					height: '375px',
 				};
 			case time > 90:
 				return {
-					width: '500px',
+					width: '375px',
+					height: '400px',
 				};
 			default:
 				return {
-					width: '220px',
+					width: '300px',
+					height: '325px',
 				};
 		}
 	};
@@ -100,12 +82,12 @@ const Todo = ({ data }) => {
 			<CardHeader
 				title={
 					<div className={classes.header}>
-						<span className={classes.headerText}>{data.name}</span>
+						<span className={classes.headerText}>{todo.name}</span>
 						<FontAwesomeIcon
 							size="lg"
 							icon={faTimes}
 							className={classes.closeIcon}
-							onClick={() => deleteTodo(data.id)}
+							onClick={() => deleteTodo(todo.id)}
 						/>
 					</div>
 				}
@@ -113,9 +95,21 @@ const Todo = ({ data }) => {
 			<CardContent>
 				<DatePicker date={date} setDate={setDate} />
 				<br />
+
 				<TimePicker time={time} setTime={setTime} />
-				<InputLabel shrink>Dependencies</InputLabel>
-				<Dependencies dependencies={data.dependencies} />
+
+				{todo.dependencies.length > 0 && (
+					<InputLabel className={classes.dependenciesLabel} shrink>
+						Dependencies
+					</InputLabel>
+				)}
+				<div className={classes.dependenciesWrapper}>
+					<Dependencies dependencies={todo.dependencies} />
+				</div>
+
+				<InputLabel className={classes.excitementLabel} shrink>
+					Excitement level
+				</InputLabel>
 				<ExcitementPicker
 					excitement={excitement}
 					setExcitement={setExcitement}

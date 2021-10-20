@@ -1,7 +1,10 @@
 import { makeStyles } from '@material-ui/styles';
 
 export default makeStyles(() => ({
+	root: {
+		marginTop: '6px',
+	},
 	dateInput: {
-		maxWidth: '200px',
+		maxWidth: '180px',
 	},
 }));

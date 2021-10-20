@@ -6,6 +6,7 @@ export default makeStyles({
 		display: 'flex',
 		flexWrap: 'wrap',
 		justifyContent: 'center',
+		textAlign: 'center',
 	},
 	noTodos: {
 		color: '#eee',

@@ -8,7 +8,7 @@ const array = [
 		name: 'Do laundry',
 		dueDate: tomorrow,
 		timeToComplete: 15,
-		dependencies: ['Detergent'],
+		dependencies: ['detergent'],
 		excitement: 1,
 	},
 	{
@@ -16,7 +16,7 @@ const array = [
 		name: 'Wash the dishes',
 		dueDate: tomorrow,
 		timeToComplete: 15,
-		dependencies: ['Fairy', 'Sponge'],
+		dependencies: ['fairy', 'sponge'],
 		excitement: 2,
 	},
 	{
