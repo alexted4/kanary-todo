@@ -12,7 +12,6 @@ import {
 	DELETE_ALL_TODOS_SUCCESS,
 	DELETE_ALL_TODOS_FAILURE,
 } from '../actionTypes';
-//import sampleData from '../sampleData';
 
 const initialState = {
 	loading: false,
