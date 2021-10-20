@@ -17,12 +17,10 @@ import useStyles from './style';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { useSelector, useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import actionCreators from '../../store/action-creators';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
 
-const AddTodo = ({ handleClose }) => {
+const AddTodo = ({ handleClose, addTodo }) => {
 	const [date, setDate] = useState(+new Date());
 	const [time, setTime] = useState(5);
 	const [name, setName] = useState('');
@@ -30,8 +28,6 @@ const AddTodo = ({ handleClose }) => {
 	const [dependency, setDependency] = useState('');
 	const [dependencies, setDependencies] = useState([]);
 
-	const dispatch = useDispatch();
-	const { addTodo } = bindActionCreators(actionCreators, dispatch);
 	const todos = useSelector((state) => state.todo.todos);
 
 	const submitTodo = () => {

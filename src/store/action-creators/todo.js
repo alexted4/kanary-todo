@@ -9,6 +9,8 @@ import {
 	SORT_TODO_SUCCESS,
 	SORT_TODO_FAILURE,
 	SET_LOADING,
+	DELETE_ALL_TODOS_SUCCESS,
+	DELETE_ALL_TODOS_FAILURE,
 } from '../actionTypes';
 
 const updateStorage = (todos) => {
@@ -144,6 +146,32 @@ const sortTodoSuccess = (data) => ({
 
 const sortTodoFailure = (data) => ({
 	type: SORT_TODO_FAILURE,
+	payload: {
+		data: data,
+	},
+});
+
+export const deleteAllTodos = () => {
+	return (dispatch, getState) => {
+		dispatch(setLoading(true));
+		try {
+			dispatch(deleteAllTodosSuccess());
+			updateStorage(getState().todo.todos);
+		} catch (error) {
+			dispatch(deleteAllTodosFailure(error.message));
+		}
+	};
+};
+
+const deleteAllTodosSuccess = () => ({
+	type: DELETE_ALL_TODOS_SUCCESS,
+	payload: {
+		data: [],
+	},
+});
+
+const deleteAllTodosFailure = (data) => ({
+	type: DELETE_ALL_TODOS_FAILURE,
 	payload: {
 		data: data,
 	},

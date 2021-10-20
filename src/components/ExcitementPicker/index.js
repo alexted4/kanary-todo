@@ -21,6 +21,7 @@ const ExcitementPicker = ({ excitement, setExcitement }) => {
 	const getExcitements = () => {
 		return EXCITEMENTS.map((exc) => (
 			<FontAwesomeIcon
+				key={exc.id}
 				size="2x"
 				icon={exc.icon}
 				className={

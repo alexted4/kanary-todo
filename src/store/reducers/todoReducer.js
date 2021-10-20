@@ -9,6 +9,8 @@ import {
 	SORT_TODO_SUCCESS,
 	SORT_TODO_FAILURE,
 	SET_LOADING,
+	DELETE_ALL_TODOS_SUCCESS,
+	DELETE_ALL_TODOS_FAILURE,
 } from '../actionTypes';
 //import sampleData from '../sampleData';
 
@@ -68,6 +70,18 @@ export default function todo(state = initialState, action) {
 				loading: false,
 			};
 		case SORT_TODO_FAILURE:
+			return {
+				...state,
+				error: action.payload.data,
+				loading: false,
+			};
+		case DELETE_ALL_TODOS_SUCCESS:
+			return {
+				...state,
+				todos: action.payload.data,
+				loading: false,
+			};
+		case DELETE_ALL_TODOS_FAILURE:
 			return {
 				...state,
 				error: action.payload.data,
