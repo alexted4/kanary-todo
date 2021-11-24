@@ -8,7 +8,9 @@ export default function setupStore(preloadedState) {
 	const enhancers = [middlewareEnhancer] || compose;
 	const composedEnhancers = compose(
 		...enhancers,
-		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+		window.__REDUX_DEVTOOLS_EXTENSION__
+			? window.__REDUX_DEVTOOLS_EXTENSION__()
+			: (f) => f
 	);
 	const store = createStore(reducers, preloadedState, composedEnhancers);
 	return store;
